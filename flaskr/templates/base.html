@@ -1,0 +1,27 @@
+<!doctype html>
+
+<title>{% block title %}{% endblock %} - Flaskr</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<nav>
+    <ul>
+      {% if g.user %}
+        <h2>Current logged in user: {{ g.user['username'] }}</h2>
+        <li>Go to <a href="{{ url_for('auth.userdetails', username=g.user['username']) }}">User Details</a></li>
+        <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+              
+      {% else %}
+            <section class="content">
+                <header>
+                  {% block header %}{% endblock %}
+                </header>
+                {% for message in get_flashed_messages() %}
+                  <div class="flash">{{ message }}</div>
+                {% endfor %}
+                {% block content %}{% endblock %}
+            </section>
+            
+      {% endif %}
+    </ul>
+  </nav>
+  
